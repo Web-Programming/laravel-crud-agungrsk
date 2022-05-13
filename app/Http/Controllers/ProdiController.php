@@ -49,7 +49,18 @@ class ProdiController extends Controller
         //echo $request -> nama;
         $validateData = $request -> validate([
             'nama' => 'required|min:5|max:20',
+            'foto' => 'required|file|image|mimes:pdf|max:1000'
         ]);
+        $ext = $request -> foto -> getClientOriginalExtension();
+        $nama_file = "foto-" . time() . "." . $ext;
+        $path = $request->foto->storeAs("public", $nama_file);
+        $prodi = new Prodi();
+        $prodi -> nama = $validateData['nama'];
+        $prodi -> institusi_id = 0;
+        $prodi -> fakultas_id = 1;
+        $prodi -> foto = $nama_file;
+        $prodi -> save();
+
 
         Prodi::where('id', $prodi->id)->update($validateData);
         $request -> session() -> flash('info', "Data Prodi $prodi -> nama berhasil diubah");

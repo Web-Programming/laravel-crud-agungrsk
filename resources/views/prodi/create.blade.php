@@ -27,6 +27,10 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="foto">Gambar/Logo</label>
+                        <input type="file" name="foto">
+                    </div>
                     <button type="submit" class="btn btn-primary mt-2">Simpan</button>
                 </form>
             </div>

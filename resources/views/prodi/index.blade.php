@@ -33,6 +33,8 @@
                     @foreach ($prodis as $item)
                         <tr>
                             <td>{{ $item -> nama }}</td>
+                            <td>{{ $item -> fakultas -> nama }}</td>
+                            <td><img src="{{ asset('storage/'.$item -> foto) }}" widht="100"></td>
                             <td>
                                 <form action="{{ route('prodi.destroy', ['prodi' => $item->id]) }}" method="POST">
                                     <a href="{{ url('/prodi/'.$item->id) }}" class="btn btn-warning">Detail</a>
