@@ -22,6 +22,9 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [RegisterController::class, 'login']);
 
 use App\http\controllers\API\ProdiController;
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::resource("prodi", ProdiController::class);
+});
 Route::resource("prodi", ProdiController::class);
 Route::middleware('auth:sanctum')->get('/user', function(Request $request){
     return $request->user();

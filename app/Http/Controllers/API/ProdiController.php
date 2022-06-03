@@ -25,10 +25,48 @@ class ProdiController extends Controller
      */
     public function store(Request $request)
     {
-        // $prodi = Prodi::all()
-        // return $prodi;
+        $validateData = $request->validate([
+            'nama' => 'required|min:5|max:20',
+            'foto' => 'required|file|image|max:1000'
+        ]);
+
+        //mengambil file extension
+        $ext = $request->foto->getClientOriginalExtension();
+        $nama_file = "foto-" . time() . "," . $ext;
+        $path = $request->foto->storeAs("public", $nama_file);
+        
+        $prodi = new Prodi();
+        $prodi->nama = $validateData['nama'];
+        $prodi->institusi_id = 0;
+        $prodi->fakultas_id = 1;
+        $prodi->foto = $nama_file;
+        $prodi->save();
+
+        return['status' => true, 'message' => 'Data berhasil disimpan'];
     }
 
+    public function update(Request $request, Prodi $prodi){
+        $validateData = $request -> validate([
+            'nama' => 'required|min:5|max:20',
+        ]);
+        Prodi::where('id', $id)->update($validateData);
+
+
+        return['status' => true, 'message' => 'Data berhasil diupdate'];
+    }
+
+    public function destroy($id)
+    {
+        $prodi = Prodi::find($id);
+        if($prodi){
+            $prodi->delete();
+            return['status' => true, 'message' => 'Data prodi berhasil dihapus'];
+        }
+        else{
+            return['status' => false, 'message' => 'Data prodi gagal dihapus'];
+        }
+    }
+    
     /**
      * Display the specified resource.
      *
@@ -54,10 +92,6 @@ class ProdiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -65,8 +99,4 @@ class ProdiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
 }
