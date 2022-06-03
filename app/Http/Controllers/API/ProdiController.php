@@ -25,8 +25,8 @@ class ProdiController extends Controller
      */
     public function store(Request $request)
     {
-        $prod = Prodi::all()
-        return $prodi
+        // $prodi = Prodi::all()
+        // return $prodi;
     }
 
     /**
@@ -37,8 +37,14 @@ class ProdiController extends Controller
      */
     public function show($id)
     {
-        $prodi = Prodi::findOrFail($id);
-        return $prodi;
+        // $prodi = Prodi::findOrFail($id);
+        $prodi = Prodi::find($id);
+        if($prodi){
+            return $prodi;
+        }
+        else{
+            return ['status' => false, 'message' => 'Prodi tidak ditemukan'];
+        }
     }
 
     /**
